@@ -64,8 +64,14 @@ pipeline {
                     BUILD_NUMBER=${BUILD_NUMBER}
                     sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
                     git add java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
-                    git commit -m "Update deployment image to version ${BUILD_NUMBER}"
-                    git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
+		    git commit -m "Update deployment image to version $BUILD_NUMBER" || echo "No changes to commit"
+		    if ! git rev-parse --abbrev-ref HEAD | grep -q "HEAD"; then
+  		    	git push origin $(git rev-parse --abbrev-ref HEAD)
+		    else
+  			echo "Repository is in detached HEAD state. Switch to a branch before pushing."
+		    fi
+                    #git commit -m "Update deployment image to version ${BUILD_NUMBER}"
+                    #git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
                 '''
             }
         }
