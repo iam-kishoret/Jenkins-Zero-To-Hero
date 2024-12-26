@@ -44,7 +44,7 @@ deploy/install: ArgoCD:Operator Lifecycle Manager (OLM)
 	kubectl create -f https://operatorhub.io/install/argocd-operator.yaml
 	kubectl get csv -n operators 
 	# This will take some time to initilize, Wait for some
-deploy/install: ArgoCD:Operator
+	deploy/install: ArgoCD:Operator
 	https://argocd-operator.readthedocs.io/en/latest/usage/basics/
 	wget https://github.com/iam-kishoret/Jenkins-Zero-To-Hero/raw/main/java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/argocd-basic.yaml
 	kubectl create ns argocd
