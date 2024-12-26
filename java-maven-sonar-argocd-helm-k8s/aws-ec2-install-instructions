@@ -38,10 +38,12 @@ install kubectl:
 
 deploy/install: ArgoCD:Operator Lifecycle Manager (OLM)
 	https://operatorhub.io/operator/argocd-operator
-	minikube start
+	minikube start 
+	# Wait for some time to initilize
 	curl -sL https://github.com/operator-framework/operator-lifecycle-manager/releases/download/v0.30.0/install.sh | bash -s v0.30.0
 	kubectl create -f https://operatorhub.io/install/argocd-operator.yaml
-	kubectl get csv -n operators
+	kubectl get csv -n operators 
+	# This will take some time to initilize, Wait for some
 deploy/install: ArgoCD:Operator
 	https://argocd-operator.readthedocs.io/en/latest/usage/basics/
 	wget https://github.com/iam-kishoret/Jenkins-Zero-To-Hero/raw/main/java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/argocd-basic.yaml
