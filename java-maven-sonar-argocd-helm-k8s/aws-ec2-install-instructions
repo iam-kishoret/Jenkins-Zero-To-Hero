@@ -36,3 +36,33 @@ install kubectl:
 	curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
    	sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
+deploy/install: ArgoCD:Operator Lifecycle Manager (OLM)
+	https://operatorhub.io/operator/argocd-operator
+	minikube start
+	curl -sL https://github.com/operator-framework/operator-lifecycle-manager/releases/download/v0.30.0/install.sh | bash -s v0.30.0
+	kubectl create -f https://operatorhub.io/install/argocd-operator.yaml
+	kubectl get csv -n operators
+deploy/install: ArgoCD:Operator
+	https://argocd-operator.readthedocs.io/en/latest/usage/basics/
+	wget https://github.com/iam-kishoret/Jenkins-Zero-To-Hero/raw/main/java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/argocd-basic.yaml
+	kubectl create ns argocd
+	kubectl create -n argocd -f argocd-basic.yaml
+	kubectl get cm,secret,deploy -n argocd
+
+	#Fetch the admin password from the cluster Secret.
+	kubectl -n argocd get secret example-argocd-cluster -o jsonpath='{.data.admin\.password}' | base64 -d
+
+	#Expose and forward port to local ec2 machine
+	kubectl -n argocd port-forward service/example-argocd-server 8443:443 --address 0.0.0.0
+				(or) - To exit from the command promt.
+	nohup kubectl -n argocd port-forward service/example-argocd-server 8443:443 --address 0.0.0.0 &
+	# Use the password extracted above to login to the argoCD console using https://<ec2-ip>:8443
+	kubectl create ns cicd-app
+	kubectl label namespace cicd-app argocd.argoproj.io/managed-by=argocd
+	create application via argoCD URL and configure github to use the app manifest files.
+
+	
+
+	
+	
+	
