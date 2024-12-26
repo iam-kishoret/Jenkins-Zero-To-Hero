@@ -1,0 +1,38 @@
+create EC2 with more compute power, add inbound rule to allow all tcp traffic for POC purpose.
+install jenkins
+	install open jdk
+	install jenkins
+Open jenkins UI, and install suggested plugins
+configure pipeline using git repository where the Jenkins configuraiton file is present.
+install Docker
+install docker plugin in jenkins
+
+Git:
+	git clone "repo"
+	update the changes required
+	git add .
+	git commit -m "updated jenkins file with updated docker hub repo"
+	ssh -T git@github.com
+	git remote set-url origin git@github.com:iam-kishoret/Jenkins-Zero-To-Hero.git
+	git push origin main
+
+insall sonarqube scanner plugin in jenkins and restart jenkins
+
+install sonarqube
+
+create a token from sonarqube for jenkins
+
+add the token created in sonarqube into jenkins
+
+install minikube:
+	curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+	sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
+
+	minikube start --driver=docker
+	minikube config set driver docker
+
+install kubectl:
+
+	curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+   	sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
