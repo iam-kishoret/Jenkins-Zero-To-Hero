@@ -61,7 +61,11 @@ deploy/install: ArgoCD:Operator Lifecycle Manager (OLM)
 	# Use the password extracted above to login to the argoCD console using https://<ec2-ip>:8443
 	kubectl create ns cicd-app
 	kubectl label namespace cicd-app argocd.argoproj.io/managed-by=argocd
-	create application via argoCD URL and configure github to use the app manifest files.
+	
+	#create application via argoCD URL and configure github to use the app manifest files.
+
+	#Expose the application service to ec2 instance 
+	kubectl -n cicd-app port-forward service/spring-boot-app-service 9090:80 --address 0.0.0.0
 
 	
 
